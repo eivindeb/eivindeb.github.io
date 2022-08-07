@@ -1,0 +1,13 @@
+.content {
+    display:block;
+    border:solid;
+    float:left;
+}
+
+.content-title {
+    text-decoration:none;
+}
+
+a {
+    text-decoration:none;
+}

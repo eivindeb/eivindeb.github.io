@@ -66,3 +66,8 @@ body {
 #ptime {
     margin-left: 12px;
 }
+
+#status {
+    float: left;
+    clear: both;
+}

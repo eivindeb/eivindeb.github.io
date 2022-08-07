@@ -5,38 +5,54 @@
     <title>AIvind Chess Engine</title>
     <link rel="stylesheet" href="libs/chessboardjs-1.0.0/css/chessboard-1.0.0.css">
     <link rel="stylesheet" href="aivind.css">
+    <link rel="stylesheet" href="../../styles.css">
 </head>
 <body>
-    <div><img id="avatar-img" src="img/avatars/neutral.png"></div>
-    <div id="game">
-        <div id="board"></div>
-        <div id="sidebar">
-            <div id="clock">
-                <div id="bclock" class="clock-box"></div>
-                <div id="clock-divider"></div>
-                <div id="wclock" class="clock-box"></div>
-            </div>
-            <button id="initiate-btn" onclick="initiateGame()">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">
-                    <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/>
-                </svg>
-            </button>
-            <button id="settings-btn" onclick="toggleSettingsWindow()">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear-fill" viewBox="0 0 16 16">
-                  <path d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872l-.1-.34zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z"/>
-                </svg>
-            </button>
-            <div id="result"></div>
-        </div>
+    <div id="navbar">
+        <a href="../../index.html">Home</a>
+        <a href="../projects.html">Projects</a>
+        <a href="../../publications/publications.html">Publications</a>
     </div>
-    <div id="settings">
-        <label for="ptime">Player time:</label><input placeholder="in seconds" class="time-setting" type="number" id="ptime" value=60> <label for="pinc">Increment:</label><input class="time-inc" type="number" id="pinc" value=3><br>
-        <label for="etime">Engine time:</label><input placeholder="in seconds" class="time-setting" type="number" id="etime" value=60> <label for="einc">Increment:</label><input class="time-inc" type="number" id="einc" value=3><br>
-        <p>Play as:
-            <label for="play-as-white">White</label><input type="radio" name="side" id="play-as-white" value="w" class="side-radio">
-            <label for="play-as-black">Black</label><input type="radio" name="side" id="play-as-black" value="b" class="side-radio">
-        </p>
+    <div id="container">
+        <div id="main">
+            <div><img id="avatar-img" src="img/avatars/neutral.png"></div>
+            <div id="game">
+                <div id="board"></div>
+                <div id="sidebar">
+                    <div id="clock">
+                        <div id="bclock" class="clock-box"></div>
+                        <div id="clock-divider"></div>
+                        <div id="wclock" class="clock-box"></div>
+                    </div>
+                    <button id="initiate-btn" onclick="initiateGame()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">
+                            <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/>
+                        </svg>
+                    </button>
+                    <button id="settings-btn" onclick="toggleSettingsWindow()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear-fill" viewBox="0 0 16 16">
+                            <path d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872l-.1-.34zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div id="settings">
+                <label for="ptime">Player time:</label><input placeholder="in seconds" class="time-setting" type="number" id="ptime" value=60> <label for="pinc">Increment:</label><input class="time-inc" type="number" id="pinc" value=3><br>
+                <label for="etime">Engine time:</label><input placeholder="in seconds" class="time-setting" type="number" id="etime" value=60> <label for="einc">Increment:</label><input class="time-inc" type="number" id="einc" value=3><br>
+                <p>Play as:
+                    <label for="play-as-white">White</label><input type="radio" name="side" id="play-as-white" value="w" class="side-radio">
+                    <label for="play-as-black">Black</label><input type="radio" name="side" id="play-as-black" value="b" class="side-radio">
+                </p>
+            </div>
+            <div id="status"></div>
+        </div>
+        <div id="description">
+            <p>In my third year of university I took my first AI-course. I wanted to learn more about the AI-algorithms presented in the course, and also develop my coding skills. I therefore embarked on a quest to design and implement my own chess AI, aptly named AIvind. On this page you can play versus a webified version of AIvind the chess engine, see if you can beat the digital me!
 
+                The chess AI project was a fun, instructive, and challenging project, both from an AI-theoretic standpoint but also from a coding implementation perspective. I started implementing the engine in Python, but quickly realized that I needed more raw speed. I therefore switched to the c++ language, and employed clever board and move representations combined with bit manipulations to make the main logic loops of the code run faster, thus allowing more calculations in a given time frame resulting in stronger play! The engine totals some 4000 lines of c++ code, and gave me valuable experience in working with large software projects with many interacting parts, where code optimization is also an important aspect to yield a stronger engine.
+
+                In terms of AI-algorithms AIvind is a minimax tree search engine, primarily consisting of one component that generates the search tree of possible moves a given number of moves a head in time, and an evaluator that assigns a "goodness" score to a given board position, similar to the structure of the Stockfish engine. In essence, the engine generates the possible board positions that make up the tree of possible future board positions and evaluates each to find the move that given optimal play from the opponent will result in the best future board position for the engine. Of course, here as well there are several extensions to the basic algorithm that were interesting to learn and think about and to implement. These include alpha-beta pruning (a lossless algorithm to prune parts of the search space that cant possibly contain a better move than the current best one), quiescence search (when a search path ends with an unstable position, e.g. immediate trade options or checks, these moves are explored further as the evaluation is likely to significantly change as a result of these moves), and transposition tables (a given position can be arrived at from differing sequences of moves, called transpositions, hashing the evaluation results of board positions can then be used to speed up future searching when these previously evaluated positions are encountered again).</p>
+        </div>
     </div>
     <script src="libs/jquery-3.5.1.js"></script>
     <script src="libs/chessboardjs-1.0.0/js/chessboard-1.0.0.js"></script>
@@ -67,11 +83,10 @@
         var $settings = $("#settings")
         var $pTime = $("#ptime");
         var $eTime = $("#etime");
-        var $pInc = $("#pInc");
-        var $eInc = $("#eInc");
+        var $pInc = $("#pinc");
+        var $eInc = $("#einc");
         var $sideW = $("#play-as-white");
         var $sideB = $("#play-as-black");
-        var $result = $("#result");
         var $initiateBtn = $("#initiate-btn");
 
         $sideW.prop("checked", true);
@@ -135,7 +150,7 @@
         $wClock.text(formatMs(wTimeLeft))
         $bClock.text(formatMs(bTimeLeft))
 
-        function toggleSettingsWindow() {  // TODO: fix engine losing on time. And wrong avatar set when losing on time.
+        function toggleSettingsWindow() {  // TODO: fix engine losing on time.
             $settings.toggle();
         }
 
@@ -154,19 +169,19 @@
                 }
         }
 
-        function gameOver(winner) {  // TODO: wrong winner set (when engine wins it displays you beat me)
+        function gameOver(winner) {
             // fix game outcome box and set status
             clearInterval(clockUpdateHandle);
             gameIsOver = true;
             if (winner[0].toLowerCase() === engineSide) {
-                setAvatar(1000);
-                $result.text("You lost. Better luck next time!")
+                setAvatar(1000 * engineSideInt);
+                $status.text("You lost. Better luck next time!")
             } else if (winner === "draw") {
                 setAvatar(0);
-                $result.text("The game is drawn!")
+                $status.text("The game is drawn!")
             } else {
-                setAvatar(-1000);
-                $result.text("Congratulations, you beat me!")
+                setAvatar(-1000 * engineSideInt);
+                $status.text("Congratulations, you beat me!")
             }
         }
 
@@ -240,7 +255,7 @@
           $square.css('background', background)
         }
 
-        function startEngine() {  // TODO: Make button to start game when engine is white
+        function startEngine() {
             engineWorker.postMessage({
                 type: "INITIALIZE",
                 payload: {
@@ -305,7 +320,7 @@
 
         function onDrop (source, target) {
             if (!engineStarted) {
-                $settings
+                //$settings
                 startEngine();
             }
             removeGreySquares()
@@ -379,7 +394,7 @@
           return new Promise(resolve => setTimeout(resolve, ms));
         }
 
-        function getEngineMove() {
+        function getEngineMove() {  // TODO: possible bug with castling. In this position ('r1b1k2r/p1p1bppp/2p5/8/8/8/PPP2PPP/RNB2RK1 b kq - 1 11'), engine made move e8h8, while it should be e8g8.
             url_fen = game.fen().replaceAll(" ", "%20")
             var request = $.get("https://explorer.lichess.ovh/master?fen=" + url_fen + "&topGames=0");
 
@@ -419,7 +434,9 @@
                             move: move
                         }
                     });
-                    executeEngineMove(move, true);
+                    if (!gameIsOver) {
+                        executeEngineMove(move, true);
+                    }
                     updateStatus();
                 }
             })
