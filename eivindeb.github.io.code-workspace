@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"name": "eivindeb.github.io",
+			"path": "."
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "eivindeb.github.io"
+	}
+}
