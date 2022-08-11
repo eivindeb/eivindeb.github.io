@@ -1,5 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;1,100;1,200;1,300;1,400;1,500;1,600&display=swap');
 
+:root {
+    --white: #FFF;
+    --black: #000000;
+    --raisin-black: #24252A;
+    --almost-white: #F9F7F5;
+    --non-photo-blue: #98D3DF;
+    --mountbatton-pink: #8B728E;
+    --burlywood: #D7B377;
+    --logo-color: #001F3F;
+}
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -9,7 +20,7 @@
 html, body{
     margin: 0px;
     padding: 0px;
-    background-color: #FFFFFF;
+    background-color: var(--almost-white);
     background-size: 100% 100%;
     overflow: hidden;
     background-repeat: no-repeat;
@@ -17,7 +28,7 @@ html, body{
 
 li, a, button {
     font-family: 'Poppins', sans-serif;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 500;
     color: #24252A;
     text-decoration: none;
@@ -33,37 +44,37 @@ header {
 .logo {
     cursor: pointer;
     margin-right: auto;
-    width: 100px;
+    width: 150px;
     position: flex;
 }
 
 .nav-links {
     list-style: none;
 }
-
+/*
 .nav-links li {
     display: inline-block;
     padding: 0px 20px;
-}
+}*/
 
 .nav-links li a {
     transition: all 0.2s ease 0s;
 }
 
-/*.nav-links li a:hover {
+.nav-links li a:hover {
     justify-content: center;
     align-items: center;
     border-radius: 100%;
     text-align: center;
     display: flex;
-    background-color: rgba(152,211,223,2);
-}*/
+    color: var(--white);
+}
 
 .dot {
     height: 125px;
     width: 125px;
-    padding: 5px;
-    margin: 5px;
+    padding: 4px;
+    margin: 4px;
     border-radius: 100%;
     justify-content: center;
     line-height: 125px;
@@ -76,7 +87,8 @@ header {
 .dot:hover {
     height: 125px;
     width: 125px;
-    margin: 5px;
+    padding: 4px;
+    margin: 4px;
     border-radius: 100%;
     justify-content: center;
     line-height: 125px;
@@ -84,26 +96,21 @@ header {
     align-items: center;
     display: inline-block;
     vertical-align: middle;
-    background-color: rgba(152,211,223,1);
+    background-color: rgba(0,31,63,1);
 }
 
-button {
-    padding: 9px 25px;
-    background-color: rgba(152,211,223,1);
-    border: none;
-    border-radius: 25px;
-    cursor: pointer;
-    transition: all 0.3s ease 0s;
-}
-
-button:hover {
-    width: 25px;
-    height: 25px;
-    background-color: #8F754F;
-}
 .wrapper {
-    max-width: 67rem;
-    margin: 0 auto;
-    padding: 2rem;
-    background-color: #fff;
+    height: auto;
+    width: inherit;
+    padding: 30px 10%;
+    background-size: cover;
+    background-color: var(--burlywood);
+    border: 2px solid var(--raisin-black);
+}
+
+.cards {
+    padding: 15px;
+    border-radius: 3px;
+    background-color: var(--mountbatton-pink);
+    text-color: var(--white);
 }
