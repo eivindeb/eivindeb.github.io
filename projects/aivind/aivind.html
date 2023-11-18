@@ -1,506 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
     <title>AIvind Chess Engine</title>
     <link rel="stylesheet" href="libs/chessboardjs-1.0.0/css/chessboard-1.0.0.css">
     <link rel="stylesheet" href="aivind.css">
-    <link rel="stylesheet" href="../../styles.css">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <div id="navbar">
-        <a href="../../index.html">Home</a>
-        <a href="../projects.html">Projects</a>
-        <a href="../../publications/publications.html">Publications</a>
-    </div>
-    <div id="container">
-        <div id="main">
-            <div><img id="avatar-img" src="img/avatars/neutral.png"></div>
-            <div id="game">
-                <div id="board"></div>
-                <div id="sidebar">
-                    <div id="clock">
-                        <div id="bclock" class="clock-box"></div>
-                        <div id="clock-divider"></div>
-                        <div id="wclock" class="clock-box"></div>
-                    </div>
-                    <button id="initiate-btn" onclick="initiateGame()">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">
-                            <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/>
-                        </svg>
-                    </button>
-                    <button id="settings-btn" onclick="toggleSettingsWindow()">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear-fill" viewBox="0 0 16 16">
-                            <path d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872l-.1-.34zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z"/>
-                        </svg>
-                    </button>
+<body class="bg-gray-100">
+    <header class="bg-gray-800 text-white text-center py-4">
+        <h1 class="text-3xl md:text-4xl lg:text-5xl">AIvind the Chess Engine</h1>
+    </header>
+    <main class="max-w-6xl mx-auto px-4 mt-4 md:mt-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 md:gap-4">
+            <!-- Avatar -->
+            <div class="flex justify-center md:col-span-2">
+                <img id="avatar-img" src="img/avatars/neutral.png" alt="AI Avatar" class="w-auto md:w-32 lg:w-40">
+            </div>
+            <!-- Empty Cell -->
+            <div class="hidden md:block md:col-span-1"></div>
+            <!-- Chessboard -->
+            <div class="flex justify-center md:col-span-2">
+                <div id="chessboard" class="mx-auto" style="min-width: 400px; min-height: 400px; max-width: 600px; max-height: 600px;">
+                    <div id="board"></div>  <!-- Chessboard will be here -->
                 </div>
             </div>
-            <div id="settings">
-                <label for="ptime">Player time:</label><input placeholder="in seconds" class="time-setting" type="number" id="ptime" value=60> <label for="pinc">Increment:</label><input class="time-inc" type="number" id="pinc" value=3><br>
-                <label for="etime">Engine time:</label><input placeholder="in seconds" class="time-setting" type="number" id="etime" value=60> <label for="einc">Increment:</label><input class="time-inc" type="number" id="einc" value=3><br>
-                <p>Play as:
-                    <label for="play-as-white">White</label><input type="radio" name="side" id="play-as-white" value="w" class="side-radio">
-                    <label for="play-as-black">Black</label><input type="radio" name="side" id="play-as-black" value="b" class="side-radio">
-                </p>
+            <!-- Sidebar for Controls and Timer -->
+            <div class="md:col-span-1">
+                <div class="bg-white shadow-lg p-4 mb-4">
+                    <h2 class="text-xl md:text-2xl">Game Controls</h2>
+                    <form>
+                        <div class="mb-4 flex items-center">
+                            <label for="ptime" class="block text-sm font-medium text-gray-700 mr-2">Player time:</label>
+                            <input type="number" id="ptime" name="ptime" value="60" class="mt-1 rounded-md border-gray-300 shadow-sm mr-2" style="width: 60px;">
+                            <label for="pinc" class="block text-sm font-medium text-gray-700 mr-2">Increment:</label>
+                            <input type="number" id="pinc" name="pinc" value="3" class="mt-1 rounded-md border-gray-300 shadow-sm" style="width: 60px;">
+                        </div>
+                        <div class="mb-4 flex items-center">
+                            <label for="etime" class="block text-sm font-medium text-gray-700 mr-2">Engine time:</label>
+                            <input type="number" id="etime" name="etime" value="60" class="mt-1 rounded-md border-gray-300 shadow-sm mr-2" style="width: 60px;">
+                            <label for="einc" class="block text-sm font-medium text-gray-700 mr-2">Increment:</label>
+                            <input type="number" id="einc" name="einc" value="3" class="mt-1 rounded-md border-gray-300 shadow-sm" style="width: 60px;">
+                        </div>
+                        <fieldset class="mb-4">
+                            <legend class="text-sm font-medium text-gray-700 mr-2">Play as:</legend>
+                            <div class="inline-flex items-center mr-2">
+                                <input id="play-as-white" name="side" type="radio" value="w" checked class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 mr-1">
+                                <label for="play-as-white" class="block text-sm font-medium text-gray-700">White</label>
+                            </div>
+                            <div class="inline-flex items-center">
+                                <input id="play-as-black" name="side" type="radio" value="b" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 mr-1">
+                                <label for="play-as-black" class="block text-sm font-medium text-gray-700">Black</label>
+                            </div>
+                        </fieldset>
+                    </form>
+                    <button id="initiate-btn" onclick="initiateGame()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded items-right" style="display: none;">Play</button>
+                </div>       
+                <div class="bg-white shadow-lg p-4">
+                    <h2 class="text-xl md:text-2xl">Timers</h2>
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h3 class="text-lg md:text-xl">White:</h3>
+                            <p id="wclock" class="text-lg md:text-xl font-bold">01:00:00</p>
+                        </div>
+                        <div>
+                            <h3 class="text-lg md:text-xl">Black:</h3>
+                            <p id="bclock" class="text-lg md:text-xl font-bold">01:00:00</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div id="status"></div>
+            <!-- Project Description -->
+            <div class="mt-4 md:col-span-3">
+                <div class="bg-white shadow-lg p-4">
+                    <h2 class="text-xl md:text-2xl">Project Description</h2>
+                    <p>Describe your project here...</p>
+                </div>
+            </div>
         </div>
-        <div id="description">
-            <p>In my third year of university I took my first AI-course. I wanted to learn more about the AI-algorithms presented in the course, and also develop my coding skills. I therefore embarked on a quest to design and implement my own chess AI, aptly named AIvind. On this page you can play versus a webified version of AIvind the chess engine, see if you can beat the digital me!
-
-                The chess AI project was a fun, instructive, and challenging project, both from an AI-theoretic standpoint but also from a coding implementation perspective. I started implementing the engine in Python, but quickly realized that I needed more raw speed. I therefore switched to the c++ language, and employed clever board and move representations combined with bit manipulations to make the main logic loops of the code run faster, thus allowing more calculations in a given time frame resulting in stronger play! The engine totals some 4000 lines of c++ code, and gave me valuable experience in working with large software projects with many interacting parts, where code optimization is also an important aspect to yield a stronger engine.
-
-                In terms of AI-algorithms AIvind is a minimax tree search engine, primarily consisting of one component that generates the search tree of possible moves a given number of moves a head in time, and an evaluator that assigns a "goodness" score to a given board position, similar to the structure of the Stockfish engine. In essence, the engine generates the possible board positions that make up the tree of possible future board positions and evaluates each to find the move that given optimal play from the opponent will result in the best future board position for the engine. Of course, here as well there are several extensions to the basic algorithm that were interesting to learn and think about and to implement. These include alpha-beta pruning (a lossless algorithm to prune parts of the search space that cant possibly contain a better move than the current best one), quiescence search (when a search path ends with an unstable position, e.g. immediate trade options or checks, these moves are explored further as the evaluation is likely to significantly change as a result of these moves), and transposition tables (a given position can be arrived at from differing sequences of moves, called transpositions, hashing the evaluation results of board positions can then be used to speed up future searching when these previously evaluated positions are encountered again).</p>
-        </div>
-    </div>
+    </main>
     <script src="libs/jquery-3.5.1.js"></script>
     <script src="libs/chessboardjs-1.0.0/js/chessboard-1.0.0.js"></script>
     <script src="libs/chess.js"></script>
-    <script>
-        var engineSide = "b";
-        var engineSideInt = engineSide === "w" ? 1 : -1;
-        const engineWorker = new Worker("libs/aivind.js");
-        var $status = $('#status')
-        var $fen = $('#fen')
-        var $pgn = $('#pgn')
-        var $score = $("#score")
-        var $avatarImg = $("#avatar-img")
-        var $wClock = $("#wclock")
-        var $bClock = $("#bclock")
-        var game = Chess()
-        var lastMove = null;
-        var wTimeLeft = 1 * 60 * 1000;
-        var bTimeLeft = 1 * 60 * 1000;
-        var wInc = 3 * 1000;
-        var bInc = 3 * 1000;
-        var clockUpdateInterval = 10;
-        var started = false;
-        var clockUpdateHandle = null;
-        var gameIsOver = false;
-        var engineStarted = false;
-
-        var $settings = $("#settings")
-        var $pTime = $("#ptime");
-        var $eTime = $("#etime");
-        var $pInc = $("#pinc");
-        var $eInc = $("#einc");
-        var $sideW = $("#play-as-white");
-        var $sideB = $("#play-as-black");
-        var $initiateBtn = $("#initiate-btn");
-
-        $sideW.prop("checked", true);
-        $('input[type=radio][name=side]').change(function() {
-            if (this.value === 'w') {
-                engineSide = "b";
-                engineSideInt = -1;
-                var tempTime = wTimeLeft;
-                wTimeLeft = bTimeLeft;
-                bTimeLeft = tempTime;
-                board.orientation("white");
-                $initiateBtn.show();
-            }
-            else if (this.value === 'b') {
-                engineSide = "w";
-                engineSideInt = 1;
-                var tempTime = bTimeLeft;
-                bTimeLeft = wTimeLeft;
-                wTimeLeft = tempTime;
-                board.orientation("black");
-                $initiateBtn.show();
-            }
-            updateClockDisplay();
-        });
-
-        $pTime.change(function() {
-           if (engineSide === "w") {
-               bTimeLeft = $pTime.val() * 1000;
-           } else {
-               wTimeLeft = $pTime.val() * 1000;
-           }
-           updateClockDisplay();
-        });
-
-        $eTime.change(function() {
-           if (engineSide === "w") {
-               wTimeLeft = $eTime.val() * 1000;
-           } else {
-               bTimeLeft = $eTime.val() * 1000;
-           }
-           updateClockDisplay();
-        });
-
-        $pInc.change(function() {
-           if (engineSide === "w") {
-               bInc = $pInc.val() * 1000;
-           } else {
-               wInc = $pInc.val() * 1000;
-           }
-        });
-
-        $eInc.change(function() {
-           if (engineSide === "w") {
-               wInc = $eInc.val() * 1000;
-           } else {
-               bInc = $eInc.val() * 1000;
-           }
-           updateClockDisplay();
-        });
-
-        $wClock.text(formatMs(wTimeLeft))
-        $bClock.text(formatMs(bTimeLeft))
-
-        function toggleSettingsWindow() {  // TODO: fix engine losing on time.
-            $settings.toggle();
-        }
-
-        function initiateGame() {
-            if (!started)
-                console.log("Initiate game button pressed, starting game")
-                game.reset();
-                board.start();
-                if (engineSide === "w") {
-                    startEngine();
-                    setAvatar(0, true)
-                    getEngineMove();
-                }
-            else {
-                console.log("Game state is invalid for initiate game button to be pressed")
-                }
-        }
-
-        function gameOver(winner) {
-            // fix game outcome box and set status
-            clearInterval(clockUpdateHandle);
-            gameIsOver = true;
-            if (winner[0].toLowerCase() === engineSide) {
-                setAvatar(1000 * engineSideInt);
-                $status.text("You lost. Better luck next time!")
-            } else if (winner === "draw") {
-                setAvatar(0);
-                $status.text("The game is drawn!")
-            } else {
-                setAvatar(-1000 * engineSideInt);
-                $status.text("Congratulations, you beat me!")
-            }
-        }
-
-        function formatMs(ms) {
-          function pad(n) {
-            return (n < 10 ? "0" + n : n);
-          }
-
-          var m = Math.floor(ms / (60 * 1000));
-          var s = Math.floor(ms / 1000 - m * 60);
-          var ds = Math.floor(ms / 100 - s * 10 - m * 60 * 10)
-
-          return pad(m) +":"+ pad(s) + "." + ds;
-        }
-
-        function updateClockDisplay() {
-            $wClock.text(formatMs(wTimeLeft));
-            $bClock.text(formatMs(bTimeLeft));
-        }
-
-        function updateClock() {
-            if (game.turn() === "w") {
-                wTimeLeft -= clockUpdateInterval;
-                if (wTimeLeft <= 0) {
-                    gameOver("Black");
-                }
-            } else {
-                bTimeLeft -= clockUpdateInterval;
-                if (bTimeLeft <= 0) {
-                    gameOver("White");
-                }
-            }
-            updateClockDisplay();
-        }
-
-        var whiteSquareGrey = '#a9a9a9'
-        var blackSquareGrey = '#696969'
-
-        engineWorker.onmessage = function(message) {
-            if (message.data.type === "move") {
-                var engineMove = message.data.payload.move
-                executeEngineMove(engineMove);
-                setAvatar(message.data.payload.score, false);
-            }
-            else if (message.data.type === "evaluation") {
-                setAvatar(message.data.payload.score, false);
-            } else if (message.data.type === "initialization") {
-                if (message.data.payload.status === "initialized") {
-                    console.log("Engine started");
-                    engineStarted = true;
-                } else {
-                    alert("Engine initialization failed with the following error message: " + message.data.payload.status)
-                }
-            } else {
-                console.log("Unexpected message type " + message.data.type)
-            }
-        }
-
-        function removeGreySquares () {
-          $('#board .square-55d63').css('background', '')
-        }
-
-        function greySquare (square) {
-          var $square = $('#board .square-' + square)
-
-          var background = whiteSquareGrey
-          if ($square.hasClass('black-3c85d')) {
-            background = blackSquareGrey
-          }
-
-          $square.css('background', background)
-        }
-
-        function startEngine() {
-            engineWorker.postMessage({
-                type: "INITIALIZE",
-                payload: {
-                    engineSideInt: engineSideInt
-                }
-            })
-        }
-
-        function setAvatar(score, calculating=false) {
-            console.log("Setting avatar with score " + score + " and calculating " + calculating)
-            if (calculating) {
-                $avatarImg.attr("src", "img/avatars/thinking.png")
-            }
-            else if ((score <= 250) && (score >= -250)) {
-                $avatarImg.attr("src", "img/avatars/neutral.png")
-            }
-            else if (score * engineSideInt >= 250) {
-                $avatarImg.attr("src", "img/avatars/positive.png")
-            }
-            else {
-                $avatarImg.attr("src", "img/avatars/negative.png")
-            }
-        }
-
-        function onMouseoverSquare (square, piece) {
-            if (!gameIsOver) {
-             // get list of possible moves for this square
-              var moves = game.moves({
-                square: square,
-                verbose: true
-              })
-
-              // exit if there are no moves available for this square
-              if (moves.length === 0) return
-
-              // highlight the square they moused over
-              greySquare(square)
-
-              // highlight the possible squares for this piece
-              for (var i = 0; i < moves.length; i++) {
-                greySquare(moves[i].to)
-              }
-            }
-        }
-
-        function onMouseoutSquare (square, piece) {
-          removeGreySquares()
-        }
-
-        function onDragStart (source, piece, position, orientation) {
-            if (gameIsOver) return false;
-          // do not pick up pieces if the game is over
-          if (game.game_over()) return false;
-            if (game.turn() === engineSide) return false;
-
-          // only pick up pieces for the side to move
-          if ((game.turn() === 'w' && piece.search(/^b/) !== -1) ||
-              (game.turn() === 'b' && piece.search(/^w/) !== -1)) {
-            return false
-          }
-        }
-
-        function onDrop (source, target) {
-            if (!engineStarted) {
-                //$settings
-                startEngine();
-            }
-            removeGreySquares()
-          // see if the move is legal
-          var move = game.move({
-            from: source,
-            to: target,
-            promotion: 'q' // TODO: NOTE: always promote to a queen for example simplicity
-          })
-
-          // illegal move
-          if (move === null) return 'snapback'
-          lastMove = source + target;
-          if ((target[1] === "1" || target[1] === "8") && (move.piece === "p")) {
-              lastMove = lastMove + "q"
-          }
-          if (!started) {
-              started = true;
-              clockUpdateHandle = setInterval(updateClock, clockUpdateInterval)
-          }
-          if (game.turn() === "w") {
-              bTimeLeft += bInc;
-          } else {
-              wTimeLeft += wInc;
-          }
-          updateStatus()
-        }
-
-        // update the board position after the piece snap
-        // for castling, en passant, pawn promotion
-        function onSnapEnd () {
-          board.position(game.fen())
-          if (game.turn() === engineSide) {
-            setAvatar(0, true)
-            getEngineMove();
-          }
-        }
-
-        function random_choice(probs) {
-            var pick = Math.random();
-            for(var j=0; j < probs.length; j++){
-                pick -= probs[j];
-                if(pick <= 0){
-                    return j;
-                }
-            }
-        }
-
-        function executeEngineMove(move, evaluate = false) {
-            var moveObject = {from: move.substr(0, 2), to: move.substr(2, 4)}
-            if (move.length === 5) {
-              moveObject.promotion = move[4];
-            }
-            game.move(moveObject);
-            if (game.turn() === "w") {
-              bTimeLeft += bInc;
-              } else {
-                  wTimeLeft += wInc;
-              }
-            board.position(game.fen());
-            if (evaluate) {
-                engineWorker.postMessage({
-                    type: "EVALUATE"
-                })
-            }
-            updateStatus();
-        }
-
-        function sleep(ms) {
-            console.log("sleeping " + ms);
-          return new Promise(resolve => setTimeout(resolve, ms));
-        }
-
-        function getEngineMove() {  // TODO: possible bug with castling. In this position ('r1b1k2r/p1p1bppp/2p5/8/8/8/PPP2PPP/RNB2RK1 b kq - 1 11'), engine made move e8h8, while it should be e8g8.
-            url_fen = game.fen().replaceAll(" ", "%20")
-            var request = $.get("https://explorer.lichess.ovh/master?fen=" + url_fen + "&topGames=0");
-
-            request.done(async function (response) {
-                if (response.moves.length <= 1) {
-                    engineWorker.postMessage({
-                        type: "CALCULATE",
-                        payload: {
-                            lastMove: lastMove,
-                            wTime: wTimeLeft,
-                            bTime: bTimeLeft,
-                            wTimeInc: wInc,
-                            bTimeInc: bInc
-                        }
-                    })
-                } else {
-                    var total_count = 0;
-                    for (var i = 0; i < response.moves.length; i++) {
-                        response.moves[i].tot = response.moves[i].white + response.moves[i].black + response.moves[i].draws;
-                        total_count += response.moves[i].tot;
-                    }
-                    probs = []
-                    for (var i = 0; i < response.moves.length; i++) {
-                        probs.push(response.moves[i].tot / total_count);
-                    }
-                    await sleep(Math.random() * 500 + 500);
-                    var move = response.moves[random_choice(probs)].uci;
-                    engineWorker.postMessage({
-                        type: "MOVE",
-                        payload: {
-                            move: lastMove
-                        }
-                    });
-                    engineWorker.postMessage({
-                        type: "MOVE",
-                        payload: {
-                            move: move
-                        }
-                    });
-                    if (!gameIsOver) {
-                        executeEngineMove(move, true);
-                    }
-                    updateStatus();
-                }
-            })
-
-            request.fail(function (jqXHR, textStatus, errorThrown) {
-                engineWorker.postMessage({
-                    type: "CALCULATE",
-                    payload: {
-                        lastMove: lastMove,
-                        wTime: wTimeLeft,
-                        bTime: bTimeLeft,
-                        wTimeInc: wInc,
-                        bTimeInc: bInc
-                    }
-                })
-            })
-
-        }
-
-        function updateStatus () {
-          var status = ''
-
-          var moveColor = 'White'
-          if (game.turn() === 'b') {
-            moveColor = 'Black'
-          }
-
-          // checkmate?
-          if (game.in_checkmate()) {
-              var winner = moveColor === "White" ? "Black" : "White";
-              gameOver(winner);
-          }
-          // draw?
-          else if (game.in_draw()) {
-              gameOver("Draw")
-          }
-
-          // game still on
-          else {
-            status = moveColor + ' to move'
-
-            // check?
-            if (game.in_check()) {
-              status += ', ' + moveColor + ' is in check'
-            }
-          }
-
-          $status.html(status)
-          $fen.html(game.fen())
-          $pgn.html(game.pgn())
-        }
-
-        var config = {
-          draggable: true,
-          position: 'start',
-          onDragStart: onDragStart,
-          onDrop: onDrop,
-          onSnapEnd: onSnapEnd,
-          onMouseoutSquare: onMouseoutSquare,
-          onMouseoverSquare: onMouseoverSquare
-        }
-        board = Chessboard('board', config);
-
-        updateStatus();
-    </script>
+    <script src="aivind.js"></script>
 </body>
 </html>
+

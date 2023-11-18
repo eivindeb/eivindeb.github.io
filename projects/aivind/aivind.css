@@ -1,73 +1,34 @@
 body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    margin: 0;
+}
 
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 15px 0;
 }
 
 #board {
-    width: 400px;
-    float: left;
+    width: 100%; /* Ensure the chessboard fills its container */
+    max-width: 500px; /* Adjust this value as needed for the maximum size */
 }
 
-#avatar-img {
-    width: 150px;
-    margin-left: 125px;
+#chessboard {
+    width: auto;
+    max-width: 500px; /* Adjust this to control the maximum size of the chessboard container */
+    margin: auto; /* Center the chessboard within its container */
 }
 
-#clock {
-    float: left;
-    background-color: #ccc;
-    width: 150px;
-    margin-top: 125px;
-    border: 2px solid;
-    border-radius: 10px;
-}
-
-#clock-divider {
-    width: 150px;
-    height: 2px;
-    background-color: #000;
-}
-
-.clock-box {
-    padding-top: 10px;
-    padding-left: 15px;
-    font-size: 40px;
-    padding-bottom: 10px;
-}
-
-#settings-btn {
-    float: left;
-}
-
+/* Additional styles for game controls */
 #initiate-btn {
-    float:left;
-    display: none;
+    margin-left: 8px; /* Adds margin to the left of the button */
+    align-self: start; /* Aligns the button to the start of the flex container */
 }
 
-#settings {
-    padding: 10px;
-    background-color: #404040;
-    width: 377px;
-    height: 100px;
-    margin-top: 400px;
-    border-radius: 10px;
-    display: none;
-}
-
-.time-inc {
-    width: 30px;
-    margin-left: 8px;
-}
-
-.time-setting {
-    width: 100px;
-    margin-left: 8px;
-}
-
-#ptime {
-    margin-left: 12px;
-}
-
-#status {
-    float: left;
-    clear: both;
+/* Ensures the container doesn't expand */
+.inline-flex {
+    align-items: flex-start;
 }
