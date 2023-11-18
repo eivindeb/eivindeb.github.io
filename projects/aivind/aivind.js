@@ -1,6 +1,6 @@
 var engineSide = "b";
 var engineSideInt = engineSide === "w" ? 1 : -1;
-const engineWorker = new Worker("libs/aivind.js");
+let engineWorker = new Worker("libs/aivind.js");
 var $status = $('#status')
 var $fen = $('#fen')
 var $pgn = $('#pgn')
@@ -38,7 +38,8 @@ $('input[type=radio][name=side]').change(function() {
         wTimeLeft = bTimeLeft;
         bTimeLeft = tempTime;
         board.orientation("white");
-        $initiateBtn.hide();
+        // Place black timer on top
+        $("#w-timer-box").insertAfter("#b-timer-box");
     }
     else if (this.value === 'b') {
         engineSide = "w";
@@ -47,25 +48,30 @@ $('input[type=radio][name=side]').change(function() {
         bTimeLeft = wTimeLeft;
         wTimeLeft = tempTime;
         board.orientation("black");
-        $initiateBtn.show();
+        // Place white timer on top
+        $("#b-timer-box").insertAfter("#w-timer-box");
+    }
+    // Re-cache the jQuery objects for the clock elements
+    updateButtonVisibility();
+    $wClock = $('#wclock');
+    $bClock = $('#bclock');
+    updateClockDisplay();
+});
+
+$("#ptime").change(function() {
+    if (engineSide === "w") {
+        bTimeLeft = $("#ptime").val() * 1000;
+    } else {
+        wTimeLeft = $("#ptime").val() * 1000;
     }
     updateClockDisplay();
 });
 
-$pTime.change(function() {
+$("#etime").change(function() {
     if (engineSide === "w") {
-        bTimeLeft = $pTime.val() * 1000;
+        wTimeLeft = $("#etime").val() * 1000;
     } else {
-        wTimeLeft = $pTime.val() * 1000;
-    }
-    updateClockDisplay();
-});
-
-$eTime.change(function() {
-    if (engineSide === "w") {
-        wTimeLeft = $eTime.val() * 1000;
-    } else {
-        bTimeLeft = $eTime.val() * 1000;
+        bTimeLeft = $("#etime").val() * 1000;
     }
     updateClockDisplay();
 });
@@ -94,38 +100,116 @@ function toggleSettingsWindow() {  // TODO: fix engine losing on time.
     $settings.toggle();
 }
 
+function setStarted(value) {
+    if (started !== value) {
+        started = value;
+        toggleGameControls(started);
+        updateButtonVisibility();
+        if (started) {
+            clockUpdateHandle = setInterval(updateClock, clockUpdateInterval)
+        } else {
+            clearInterval(clockUpdateHandle);
+        }
+    }
+}
+
+function toggleGameControls(started) {
+    $('.game-controls input, .game-controls button').prop('disabled', started);
+    $('.game-controls').toggleClass('disabled', started);
+}
+
 function initiateGame() {
     if (!started) {
         console.log("Initiate game button pressed, starting game")
         game.reset();
         board.start();
-        $initiateBtn.hide();
+        updateButtonVisibility()
         if (engineSide === "w") {
             startEngine();
             setAvatar(0, true)
             getEngineMove();
         }
+        setStarted(true);
     }
     else {
         console.log("Game state is invalid for initiate game button to be pressed")
         }
 }
 
-function gameOver(winner) {
-    // fix game outcome box and set status
-    clearInterval(clockUpdateHandle);
-    gameIsOver = true;
-    if (winner[0].toLowerCase() === engineSide) {
-        setAvatar(1000 * engineSideInt);
-        $status.text("You lost. Better luck next time!")
-    } else if (winner === "draw") {
-        setAvatar(0);
-        $status.text("The game is drawn!")
+function updateButtonVisibility() {
+    if (gameIsOver) {
+        $('#initiate-btn').hide();
+        $('#reset-btn').show();
+    } else if (!started && engineSide === "w") {
+        $('#initiate-btn').show();
+        $('#reset-btn').hide();
     } else {
-        setAvatar(-1000 * engineSideInt);
-        $status.text("Congratulations, you beat me!")
+        $('#initiate-btn').hide();
+        $('#reset-btn').hide();
     }
 }
+
+function resetGame() {
+    game.reset();
+    board.start();
+    if (engineSide === "b") {
+        wTimeLeft = $("#ptime").val() * 1000;
+        bTimeLeft = $("#etime").val() * 1000;
+    } else {
+        bTimeLeft = $("#ptime").val() * 1000;
+        wTimeLeft = $("#etime").val() * 1000;
+    }
+    setAvatar(0);
+    updateClockDisplay();
+    gameIsOver = false;
+    started = false;
+    updateButtonVisibility();
+    console.log("Game resettetd")
+    // Any additional reset logic goes here
+}
+
+
+function gameOver(winner) {
+    // Stop the clock and other game-over logic
+    gameIsOver = true;
+
+    // Define the outcome message
+    var outcomeMessage;
+    if (winner[0].toLowerCase() === engineSide) {
+        setAvatar(1000 * engineSideInt);
+        outcomeMessage = "You lost. Better luck next time!";
+    } else if (winner === "draw") {
+        setAvatar(0);
+        outcomeMessage = "The game is drawn!";
+    } else {
+        setAvatar(-1000 * engineSideInt);
+        outcomeMessage = "Congratulations, you beat me!";
+    }
+
+    setStarted(false);
+
+    // Set the message in the modal
+    $('#outcomeMessage').text(outcomeMessage);
+
+    // Display the modal using Tailwind CSS utility classes
+    $('#gameOutcomeModal').removeClass('hidden').addClass('flex').addClass('items-center').addClass('justify-center');
+}
+
+// JavaScript for closing the modal with Tailwind classes
+$(document).ready(function() {
+    // Close button click handler
+    $('.close').click(function() {
+        $('#gameOutcomeModal').addClass('hidden').removeClass('flex');
+    });
+
+    // Click outside the modal content to close
+    $(window).click(function(event) {
+        if ($(event.target).hasClass('modal')) {
+            $('#gameOutcomeModal').addClass('hidden').removeClass('flex');
+        }
+    });
+});
+
 
 function formatMs(ms) {
     function pad(n) {
@@ -158,6 +242,7 @@ function updateClock() {
     }
     updateClockDisplay();
 }
+
 
 var whiteSquareGrey = '#a9a9a9'
 var blackSquareGrey = '#696969'
@@ -198,6 +283,10 @@ function greySquare (square) {
 }
 
 function startEngine() {
+    if (engineStarted) {
+        engineWorker.terminate();
+        engineWorker = new Worker("libs/aivind.js");
+    }
     engineWorker.postMessage({
         type: "INITIALIZE",
         payload: {
@@ -280,8 +369,7 @@ function onDrop (source, target) {
         lastMove = lastMove + "q"
     }
     if (!started) {
-        started = true;
-        clockUpdateHandle = setInterval(updateClock, clockUpdateInterval)
+        setStarted(true);
     }
     if (game.turn() === "w") {
         bTimeLeft += bInc;
@@ -431,15 +519,31 @@ function updateStatus () {
     $pgn.html(game.pgn())
 }
 
-var config = {
-    draggable: true,
-    position: 'start',
-    onDragStart: onDragStart,
-    onDrop: onDrop,
-    onSnapEnd: onSnapEnd,
-    onMouseoutSquare: onMouseoutSquare,
-    onMouseoverSquare: onMouseoverSquare
-}
-board = Chessboard('board', config);
+$(document).ready(function() {
+    var config = {
+        draggable: true,
+        position: 'start',
+        onDragStart: onDragStart,
+        onDrop: onDrop,
+        onSnapEnd: onSnapEnd,
+        onMouseoutSquare: onMouseoutSquare,
+        onMouseoverSquare: onMouseoverSquare
+    }
 
-updateStatus();
+    board = Chessboard('board', config);
+    updateButtonVisibility();
+    updateStatus();
+
+    $('#chessboard').on('touchstart touchmove', function(e) {
+        e.preventDefault();
+    });
+
+    $('#project-description').click(function() {
+        if ($(this).hasClass('truncated-text')) {
+            $(this).removeClass('truncated-text').css('height', 'auto');
+        } else {
+            $(this).addClass('truncated-text').css('height', '100px'); // Match the height set in CSS
+        }
+    });
+    // ... other initialization code ...
+});

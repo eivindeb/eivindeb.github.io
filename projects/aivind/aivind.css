@@ -19,7 +19,7 @@ header {
 #chessboard {
     width: auto;
     max-width: 500px; /* Adjust this to control the maximum size of the chessboard container */
-    margin: auto; /* Center the chessboard within its container */
+    /* margin: auto;  Center the chessboard within its container */
 }
 
 /* Additional styles for game controls */
@@ -28,7 +28,59 @@ header {
     align-self: start; /* Aligns the button to the start of the flex container */
 }
 
-/* Ensures the container doesn't expand */
-.inline-flex {
-    align-items: flex-start;
+.timer-box {
+    /* Keep the existing styles for the shadow and padding, and add: */
+    width: 120px; /* Adjust width as necessary to fit content */
+    margin: 0 auto; /* Center the timer box */
 }
+
+.bi-stopwatch,
+.bi-stopwatch-fill {
+    display: block; /* SVG icons should block out their own line */
+    margin: 0 auto 5px; /* Center the icons and add some space below */
+}
+
+/* Styles for the clocks */
+.bg-white.shadow-lg p {
+    margin: 5px 0; /* Give a little space above and below the paragraphs */
+    font-size: 1rem; /* Adjust font size as needed */
+}
+
+/* Styling for disabled game controls */
+.disabled {
+    opacity: 0.5; /* Lower opacity to indicate disabled state */
+    pointer-events: none; /* Prevent interactions */
+    background-color: #f0f0f0; /* Optional: change background color */
+}
+
+/* Additional style to indicate the disabled state for labels and fieldsets */
+.disabled label,
+.disabled fieldset {
+    color: #a0aec0; /* Lighter text color to indicate disabled state */
+}
+
+.truncated-text {
+    position: relative;
+    height: 100px; /* Adjust as needed */
+    overflow: hidden;
+    margin-bottom: 30px; /* Space for 'Read More' */
+}
+
+.truncated-text::after {
+    content: 'Read More';
+    width: 100%;
+    height: 25px; /* Height of the 'Read More' area */
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(to bottom, transparent, white);
+    text-align: center;
+    line-height: 30px;
+    color: #464647; /* Different color for the link */
+    font-weight: bold; /* Make it bold */
+    cursor: pointer; /* Change cursor to indicate clickability */
+}
+
+
+
+/* You may want to adjust fonts, sizes, and margins further to exactly match the image. */

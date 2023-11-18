@@ -13,71 +13,93 @@
     <main class="max-w-6xl mx-auto px-4 mt-4 md:mt-8">
         <div class="grid grid-cols-1 md:grid-cols-3 md:gap-4">
             <!-- Avatar -->
-            <div class="flex justify-center md:col-span-2">
+            <div class="flex justify-center md:col-span-2 mr-12">
                 <img id="avatar-img" src="img/avatars/neutral.png" alt="AI Avatar" class="w-auto md:w-32 lg:w-40">
             </div>
             <!-- Empty Cell -->
             <div class="hidden md:block md:col-span-1"></div>
             <!-- Chessboard -->
             <div class="flex justify-center md:col-span-2">
-                <div id="chessboard" class="mx-auto" style="min-width: 400px; min-height: 400px; max-width: 600px; max-height: 600px;">
+                <div id="chessboard" class="mr-1" style="min-width: 400px; min-height: 400px; max-width: 600px; max-height: 600px;">
                     <div id="board"></div>  <!-- Chessboard will be here -->
                 </div>
+                <div class="p-4 text-center">
+                    <div class="flex flex-col h-full justify-between items-center py-2">
+                        <div id="b-timer-box" class="self-start">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-stopwatch-fill" viewBox="0 0 16 16">
+                                <path d="M6.5 0a.5.5 0 0 0 0 1H7v1.07A7.001 7.001 0 0 0 8 16a7 7 0 0 0 5.29-11.584.531.531 0 0 0 .013-.012l.354-.354.353.354a.5.5 0 1 0 .707-.707l-1.414-1.415a.5.5 0 1 0-.707.707l.354.354-.354.354a.717.717 0 0 0-.012.012A6.973 6.973 0 0 0 9 2.071V1h.5a.5.5 0 0 0 0-1h-3zm2 5.6V9a.5.5 0 0 1-.5.5H4.5a.5.5 0 0 1 0-1h3V5.6a.5.5 0 1 1 1 0z"/>
+                            </svg>
+                            <p id="bclock" class="text-lg md:text-xl font-bold">01:00:00</p>
+                        </div>
+                        <div id="w-timer-box" class="self-end">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-stopwatch" viewBox="0 0 16 16">
+                                <path d="M8.5 5.6a.5.5 0 1 0-1 0v2.9h-3a.5.5 0 0 0 0 1H8a.5.5 0 0 0 .5-.5V5.6z"/>
+                                <path d="M6.5 1A.5.5 0 0 1 7 .5h2a.5.5 0 0 1 0 1v.57c1.36.196 2.594.78 3.584 1.64a.715.715 0 0 1 .012-.013l.354-.354-.354-.353a.5.5 0 0 1 .707-.708l1.414 1.415a.5.5 0 1 1-.707.707l-.353-.354-.354.354a.512.512 0 0 1-.013.012A7 7 0 1 1 7 2.071V1.5a.5.5 0 0 1-.5-.5zM8 3a6 6 0 1 0 .001 12A6 6 0 0 0 8 3z"/>
+                              </svg>
+                            <p id="wclock" class="text-lg md:text-xl font-bold">01:00:00</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <!-- Sidebar for Controls and Timer -->
-            <div class="md:col-span-1">
+            <!-- Sidebar for Controls -->
+            <div class="md:col-span-1 self-center game-controls">
                 <div class="bg-white shadow-lg p-4 mb-4">
                     <h2 class="text-xl md:text-2xl">Game Controls</h2>
                     <form>
                         <div class="mb-4 flex items-center">
-                            <label for="ptime" class="block text-sm font-medium text-gray-700 mr-2">Player time:</label>
+                            <label for="ptime" class="block text-sm font-medium text-gray-700 mr-2 w-20">Player time:</label>
                             <input type="number" id="ptime" name="ptime" value="60" class="mt-1 rounded-md border-gray-300 shadow-sm mr-2" style="width: 60px;">
                             <label for="pinc" class="block text-sm font-medium text-gray-700 mr-2">Increment:</label>
                             <input type="number" id="pinc" name="pinc" value="3" class="mt-1 rounded-md border-gray-300 shadow-sm" style="width: 60px;">
                         </div>
                         <div class="mb-4 flex items-center">
-                            <label for="etime" class="block text-sm font-medium text-gray-700 mr-2">Engine time:</label>
+                            <label for="etime" class="block text-sm font-medium text-gray-700 mr-2 w-20">AIvind time:</label>
                             <input type="number" id="etime" name="etime" value="60" class="mt-1 rounded-md border-gray-300 shadow-sm mr-2" style="width: 60px;">
                             <label for="einc" class="block text-sm font-medium text-gray-700 mr-2">Increment:</label>
                             <input type="number" id="einc" name="einc" value="3" class="mt-1 rounded-md border-gray-300 shadow-sm" style="width: 60px;">
                         </div>
-                        <fieldset class="mb-4">
-                            <legend class="text-sm font-medium text-gray-700 mr-2">Play as:</legend>
-                            <div class="inline-flex items-center mr-2">
-                                <input id="play-as-white" name="side" type="radio" value="w" checked class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 mr-1">
-                                <label for="play-as-white" class="block text-sm font-medium text-gray-700">White</label>
+                        <div class="flex items-center justify-between">
+                            <fieldset class="mb-4">
+                                <legend class="text-sm font-medium text-gray-700 mr-2">Play as:</legend>
+                                <div class="inline-flex items-center mr-2">
+                                    <input id="play-as-white" name="side" type="radio" value="w" checked class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 mr-1">
+                                    <label for="play-as-white" class="block text-sm font-medium text-gray-700">White</label>
+                                </div>
+                                <div class="inline-flex items-center">
+                                    <input id="play-as-black" name="side" type="radio" value="b" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 mr-1">
+                                    <label for="play-as-black" class="block text-sm font-medium text-gray-700">Black</label>
+                                </div>
+                            </fieldset>
+                            <div>
+                                <button id="initiate-btn" onclick="initiateGame()" type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded items-right" style="display: none;">Start</button>
+                                <button id="reset-btn" onclick="resetGame()" type="button" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded items-right" style="display: none;">Reset</button>
                             </div>
-                            <div class="inline-flex items-center">
-                                <input id="play-as-black" name="side" type="radio" value="b" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 mr-1">
-                                <label for="play-as-black" class="block text-sm font-medium text-gray-700">Black</label>
-                            </div>
-                        </fieldset>
+                        </div>
                     </form>
-                    <button id="initiate-btn" onclick="initiateGame()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded items-right" style="display: none;">Play</button>
                 </div>       
-                <div class="bg-white shadow-lg p-4">
-                    <h2 class="text-xl md:text-2xl">Timers</h2>
-                    <div class="flex justify-between items-center">
-                        <div>
-                            <h3 class="text-lg md:text-xl">White:</h3>
-                            <p id="wclock" class="text-lg md:text-xl font-bold">01:00:00</p>
-                        </div>
-                        <div>
-                            <h3 class="text-lg md:text-xl">Black:</h3>
-                            <p id="bclock" class="text-lg md:text-xl font-bold">01:00:00</p>
-                        </div>
-                    </div>
-                </div>
             </div>
             <!-- Project Description -->
             <div class="mt-4 md:col-span-3">
                 <div class="bg-white shadow-lg p-4">
                     <h2 class="text-xl md:text-2xl">Project Description</h2>
-                    <p>Describe your project here...</p>
+                    <p class="truncated-text" id="project-description">
+                        In my third year of university I took my first AI-course. I wanted to learn more about the AI-algorithms presented in the course, and also develop my coding skills. I therefore embarked on a quest to design and implement my own chess AI, aptly named AIvind. On this page through the magic of WebAssembly you can play versus AIvind the chess engine, try your hand at outwitting the digital version of me!
+<br><br>
+The chess AI project was a fun, instructive, and challenging project, both from an AI-theoretic standpoint and from a coding implementation perspective. I started implementing the engine in Python, but quickly realized that I needed more raw speed. I therefore switched to the language C++ known for its fast execution, and employed clever board and move representations combined with bit manipulations to make the main logic loops of the code run faster. This in turn enables more calculations within the same time frame, leading to stronger play! The engine totals some 4000 lines of C++ code, and gave me valuable experience in working with large software projects with many interacting parts, where code optimization is also an important aspect to yield a stronger engine.
+<br><br>
+AIvind is built on a minimax tree search framework. It primarily includes a module that creates a search tree for possible moves several turns ahead, and an evaluator that assigns a "goodness" score to a given board position, similar to the structure of the Stockfish engine. In essence, the engine generates the possible board positions that make up the tree of possible future board positions and evaluates each to find the move that given optimal play from the opponent will result in the best future board position for the engine. Of course, here as well there are several extensions to the basic algorithm that were interesting to learn and think about and to implement. These enhancements include alpha-beta pruning — a technique that efficiently reduces the search space by eliminating branches that cannot yield a better move than the current best, quiescence search (when a search path ends with an unstable position, e.g. immediate trade options or checks, these moves are explored further as the evaluation is likely to significantly change as a result of these moves), and transposition tables — a given position can be arrived at from differing sequences of moves, called transpositions, hashing the evaluation results of board positions can then be used to speed up future searching when these previously evaluated positions are encountered again.
+</p>
                 </div>
             </div>
         </div>
     </main>
+    <!-- Modal -->
+    <div id="gameOutcomeModal" class="modal hidden fixed inset-0 bg-black bg-opacity-50 overflow-y-auto h-full w-full" style="z-index: 1000;">
+        <div class="modal-content relative top-1/4 mx-auto p-5 border w-11/12 md:max-w-md rounded shadow-lg bg-white">
+        <span class="close absolute top-0 right-0 mt-2 mr-2 text-2xl font-semibold cursor-pointer">&times;</span>
+        <p id="outcomeMessage" class="text-lg"></p>
+        </div>
+    </div>
     <script src="libs/jquery-3.5.1.js"></script>
     <script src="libs/chessboardjs-1.0.0/js/chessboard-1.0.0.js"></script>
     <script src="libs/chess.js"></script>
